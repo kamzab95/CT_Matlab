@@ -37,5 +37,48 @@ rlocus(NTF);
 gain
 phase
 
+unstable = 0.2;
+stable = 2;
+
+NTF0 = NTF;
+
+NTF = feedback(series(unstable, NTF0), 1);
+figure(2);
+subplot(2,2,1);
+bode(NTF);
+subplot(2,2,2);
+nyquist(NTF);
+subplot(2,2,4);
+hold on;
+nyquist(NTF);
+t=0:pi/100:2*pi;
+x=sin(t);
+y=cos(t);
+plot(x,y);
+hold off;
+axis([-1.5, 1.5, -1.5, 1.5]);
+subplot(2,2,3);
+rlocus(NTF);
+
+NTF = feedback(series(stable, NTF0), 1);
+figure(3);
+subplot(2,2,1);
+bode(NTF);
+subplot(2,2,2);
+nyquist(NTF);
+subplot(2,2,4);
+hold on;
+nyquist(NTF);
+t=0:pi/100:2*pi;
+x=sin(t);
+y=cos(t);
+plot(x,y);
+hold off;
+axis([-1.5, 1.5, -1.5, 1.5]);
+subplot(2,2,3);
+rlocus(NTF);
+
+
+
 
 

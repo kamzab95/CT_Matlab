@@ -30,9 +30,66 @@ y=cos(t);
 plot(x,y);
 hold off;
 axis([-1.5, 1.5, -1.5, 1.5]);
-
 subplot(2,2,3);
 rlocus(NTF);
+
+[gain, phase]=margin(NTF);
+gain
+phase
+
+
+for K=10:-0.1:-10
+    fed = feedback(series(K, NTF), 1);
+    stb = isstable(fed);
+    if stb == 0
+        unstable=K;
+    elseif K ~= 0
+        stable=K;
+    end
+end
+
+unstable
+stable
+
+NTF0 = NTF;
+
+NTF = series(unstable, NTF0);
+figure(2);
+subplot(2,2,1);
+bode(NTF);
+subplot(2,2,2);
+nyquist(NTF);
+subplot(2,2,4);
+hold on;
+nyquist(NTF);
+t=0:pi/100:2*pi;
+x=sin(t);
+y=cos(t);
+plot(x,y);
+hold off;
+axis([-1.5, 1.5, -1.5, 1.5]);
+subplot(2,2,3);
+rlocus(NTF);
+
+NTF = series(stable, NTF0);
+figure(3);
+subplot(2,2,1);
+bode(NTF);
+subplot(2,2,2);
+nyquist(NTF);
+subplot(2,2,4);
+hold on;
+nyquist(NTF);
+t=0:pi/100:2*pi;
+x=sin(t);
+y=cos(t);
+plot(x,y);
+hold off;
+axis([-1.5, 1.5, -1.5, 1.5]);
+subplot(2,2,3);
+rlocus(NTF);
+
+
 
 
 
