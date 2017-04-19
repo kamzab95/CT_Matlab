@@ -9,10 +9,10 @@ C2 = [1, 0 , 0];
 D2 = 0
 
 
-calculator('system1', A1, B1, C1, D1)
-calculator('system2', A2, B2, C2, D2)
+control_and_observ('system1', A1, B1, C1, D1)
+control_and_observ('system2', A2, B2, C2, D2)
 
-function calculator(name, A, B, C, D)
+function control_and_observ(name, A, B, C, D)
     disp('--------------');
     disp(name);
     % [Af1, Bf1, Cf1, T1, k1] = ctrbf(A, B, C);
@@ -21,7 +21,8 @@ function calculator(name, A, B, C, D)
     % uncontrollable_poles = eig(Af1(1:2, 1:2)) 
     
     %controllability
-    if det(ctrb(A, B)) ~= 0 % or rank(...) == n
+    system_order = length(A); % check matrix size
+    if rank(ctrb(A, B)) == system_order % or rank(...) == n
         disp('system is controllable');
     else
         disp('system is uncontrollable');
@@ -30,11 +31,12 @@ function calculator(name, A, B, C, D)
     % observability
     ob  = obsv(A, C);
     rank_of_obsv = rank(ob)
-    system_order = length(A); % check matrix size
     if rank_of_obsv ~= system_order
         disp('system is unobservable');
     else
         disp('system is observable');
     end
 end
+
+
 
