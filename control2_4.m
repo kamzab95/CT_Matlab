@@ -62,7 +62,26 @@ desiredpoles_ext = [dominant' 10*real(dominant(1)) 20*real(dominant(1))];
 K_e = acker(Ae, Be, desiredpoles_ext)
 % K_e = [62 1173 4389 1619]
 
+Asf_ext = Ae - Be * K_e;
+B_r = [0; 0; 0; -1];
+[numsf_ext, densf_ext]=ss2tf(Asf_ext, B_r, Ce, De);
+SYS_ext = tf(numsf_ext, densf_ext);
+
+
 %step 6
+figure(2);
+subplot(1,3,1);
+step(Asf_ext, B_r, Ce, De, 1, t);
+title('Step response without disturbance');
+axis([0 15 0 1.2]);
+subplot(1,3,2);
+lsim(Asf_ext,[0 0;0 1; 0 0; -1 0], Ce, De, [input1' input2'], t);
+title('Step response with disturbance');
+legend('step resp', 'disturbance signal');
+axis([0 15 0 1.2]);
+subplot(1,3,3);
+step(Asf_ext,[0; 100; 0; 0], Ce, De, 1, t);
+title('Distrubance response');
 
 
 
