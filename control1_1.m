@@ -23,7 +23,3 @@ pzmap(res);
 figure(2);
 step(res);
 
-disp('test3');
-
-%test5
-
